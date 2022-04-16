@@ -22,8 +22,6 @@ public class MessagesController : ControllerBase
     {
         var details = await _mediator.Send(new GetMessageDetails(messageGuid));
 
-        if (details == null) return NotFound();
-
-        return Ok(details);
+        return details == null ? NotFound() : Ok(details);
     }
 }
