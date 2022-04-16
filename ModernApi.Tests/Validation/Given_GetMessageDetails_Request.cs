@@ -5,6 +5,7 @@
     using ModernApi.Validation;
     using Xunit;
 
+    [Trait(Constants.TestCategory, Constants.UnitTestCategory)]
     public class Given_GetMessageDetails_Request
     {
         private readonly GetMessageDetailsValidator _validator;

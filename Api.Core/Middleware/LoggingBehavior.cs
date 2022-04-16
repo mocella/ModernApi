@@ -1,9 +1,11 @@
-﻿namespace ModernApi.Middleware;
+﻿namespace Api.Core.Middleware;
 
 using System.Diagnostics;
-using System.Reflection;
 using System.Text.Json;
+using System.Threading;
+using System.Threading.Tasks;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : class, IRequest<TResponse>

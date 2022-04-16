@@ -1,6 +1,6 @@
+using Api.Core.Middleware;
 using FluentValidation;
 using MediatR;
-using ModernApi.Middleware;
 using ModernApi.Validation;
 using Serilog;
 
@@ -46,7 +46,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment() || app.Environment.IsStaging())
 {
-    // swagger for development and staging environments 
+    // swagger enabled for development and staging environments 
     app.UseSwagger();
     app.UseSwaggerUI();
 }

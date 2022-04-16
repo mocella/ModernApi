@@ -1,9 +1,13 @@
-﻿namespace ModernApi.Middleware;
+﻿namespace Api.Core.Middleware;
 
+using System;
 using System.Text.Json;
+using System.Threading.Tasks;
 using FluentValidation;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
-internal sealed class ExceptionHandlingMiddleware : IMiddleware
+public sealed class ExceptionHandlingMiddleware : IMiddleware
 {
     private readonly ILogger<ExceptionHandlingMiddleware> _logger;
 
@@ -30,7 +34,7 @@ internal sealed class ExceptionHandlingMiddleware : IMiddleware
         var statusCode = GetStatusCode(exception);
         var response = new
         {
-            title  = "Server Error",
+            title = "Server Error",
             status = statusCode,
             detail = exception.Message
         };
