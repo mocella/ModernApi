@@ -1,37 +1,29 @@
-﻿namespace ModernApi.Controllers
+﻿namespace ModernApi.Controllers;
+
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using Model;
+
+[ApiController]
+[Route("[controller]")]
+public class MessagesController : ControllerBase
 {
-    using Microsoft.AspNetCore.Mvc;
-    using MediatR;
-    using Model;
+    private readonly IMediator _mediator;
 
-    [ApiController]
-    [Route("[controller]")]
-    public class MessagesController : ControllerBase
+    public MessagesController(IMediator mediator)
     {
-        private readonly ILogger<MessagesController> _logger;
-        private readonly IMediator                   _mediator;
+        _mediator = mediator;
+    }
 
-        public MessagesController(
-            ILogger<MessagesController> logger, 
-            IMediator mediator)
-        {
-            _logger   = logger;
-            _mediator = mediator;
-        }
+    [HttpGet(Name = "GetMessageDetails")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> Get(Guid messageGuid)
+    {
+        var details = await _mediator.Send(new GetMessageDetails(messageGuid));
 
-        [HttpGet(Name = "GetMessageDetails")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> Get(Guid messageGuid)
-        {
-            var details = await _mediator.Send(new GetMessageDetails(messageGuid));
+        if (details == null) return NotFound();
 
-            if (details == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(details);
-        }
+        return Ok(details);
     }
 }

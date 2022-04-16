@@ -1,24 +1,23 @@
-﻿namespace ModernApi.Model
+﻿namespace ModernApi.Model;
+
+using MediatR;
+
+public class GetMessageDetails : IRequest<MessageDetailsResponse?>
 {
-    using MediatR;
-
-    public class GetMessageDetails : IRequest<MessageDetailsResponse?>
+    public GetMessageDetails(Guid messageGuid)
     {
-        public GetMessageDetails(Guid messageGuid)
-        {
-            MessageGuid = messageGuid;
-        }
-
-        public Guid MessageGuid { get; set; }
+        MessageGuid = messageGuid;
     }
 
-    public class MessageDetailsResponse
+    public Guid MessageGuid { get; set; }
+}
+
+public class MessageDetailsResponse
+{
+    public MessageDetailsResponse(Guid messageGuid)
     {
-        public MessageDetailsResponse(Guid messageGuid)
-        {
-            MessageGuid = messageGuid;
-        }
-        public Guid MessageGuid { get; set; }
+        MessageGuid = messageGuid;
     }
 
+    public Guid MessageGuid { get; set; }
 }

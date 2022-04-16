@@ -1,13 +1,12 @@
-﻿namespace ModernApi.Validation
-{
-    using FluentValidation;
-    using Model;
+﻿namespace ModernApi.Validation;
 
-    public class GetMessageDetailsValidator : AbstractValidator<GetMessageDetails>
+using FluentValidation;
+using Model;
+
+public class GetMessageDetailsValidator : AbstractValidator<GetMessageDetails>
+{
+    public GetMessageDetailsValidator()
     {
-        public GetMessageDetailsValidator()
-        {
-            RuleFor(r => r.MessageGuid).NotEmpty();
-        }
+        RuleFor(r => r.MessageGuid).NotEmpty();
     }
 }

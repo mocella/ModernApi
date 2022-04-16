@@ -12,9 +12,9 @@ builder.Services.AddControllers();
 // #### begin-custom wiring for the builder pipeline:
 
 var configuration = builder.Configuration;
-configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+configuration.AddJsonFile("appsettings.json", false, true)
     .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json",
-        optional: true)
+        true)
     .AddEnvironmentVariables()
     .Build();
 
@@ -34,7 +34,6 @@ builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBeh
 
 
 // #### end-custom wiring
-
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
