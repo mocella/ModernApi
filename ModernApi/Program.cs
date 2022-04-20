@@ -1,6 +1,7 @@
 using Api.Core.Middleware;
 using FluentValidation;
 using MediatR;
+using ModernApi.Services;
 using ModernApi.Validation;
 using Serilog;
 
@@ -29,9 +30,23 @@ builder.Logging.AddSerilog(logger);
 builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 builder.Services.AddValidatorsFromAssemblyContaining(typeof(GetMessageDetailsValidator));
 builder.Services.AddMediatR(typeof(Program));
+
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
+builder.Services.AddHttpClient();
+// TODO: add custom client mapped for maybe GitHub?
+
+
+builder.Services.AddHealthChecks()
+    .AddCheck<ApiHealthCheck>("ModernApi");
+builder.Services.AddHealthChecks()
+    .AddSqlServer(
+        builder.Configuration.GetConnectionString("MessageDatabase"));
+
+// TODO: add EF Context health-check
+// builder.Services.AddHealthChecks()
+//     .AddDbContextCheck<SampleDbContext>();
 
 // #### end-custom wiring
 
@@ -59,6 +74,8 @@ app.MapControllers();
 // #### begin-custom wiring for the app pipeline:
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+app.MapHealthChecks("/health");
 
 // #### end-custom wiring
 
