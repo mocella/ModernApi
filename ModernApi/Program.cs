@@ -3,7 +3,6 @@ using FluentValidation;
 using HealthChecks.UI.Client;
 using MediatR;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using Microsoft.AspNetCore.Builder;
 using ModernApi.Services;
 using ModernApi.Validation;
 using Serilog;
@@ -40,17 +39,18 @@ builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBeh
 builder.Services.AddHttpClient();
 // TODO: add custom client mapped for maybe GitHub?
 
-
-builder.Services.AddHealthChecks()
-    .AddCheck<ApiHealthCheck>("ModernApi");
-builder.Services.AddHealthChecks()
+builder.Services
+    .AddHealthChecksUI()
+    .AddInMemoryStorage()
+    .Services
+    .AddHealthChecks()
+    .AddCheck<ApiHealthCheck>("ModernApi")
     .AddSqlServer(
-        builder.Configuration.GetConnectionString("MessageDatabase"));
-
-// TODO: add EF Context health-check
-// builder.Services.AddHealthChecks()
-//     .AddDbContextCheck<SampleDbContext>();
-
+        builder.Configuration.GetConnectionString("MessageDatabase"))
+    // TODO: add EF Context health-check
+    //     .AddDbContextCheck<SampleDbContext>();
+    .Services
+    .AddControllers();
 
 // #### end-custom wiring
 
@@ -76,18 +76,18 @@ app.UseAuthorization();
 app.MapControllers();
 
 // #### begin-custom wiring for the app pipeline:
-app.UseRouting();
-app.UseMiddleware<ExceptionHandlingMiddleware>();
-app.UseEndpoints(config =>
-{
-    config.MapHealthChecks("healthz", new HealthCheckOptions
+app.UseRouting()
+    .UseMiddleware<ExceptionHandlingMiddleware>()
+    .UseEndpoints(config =>
     {
-        Predicate = _ => true,
-        ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+        config.MapHealthChecks("healthz", new HealthCheckOptions
+        {
+            Predicate = _ => true,
+            ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+        });
+        config.MapHealthChecksUI(); // creates route "/healthchecks-ui"
+        config.MapDefaultControllerRoute();
     });
-    // config.MapHealthChecksUI(); // TODO: sort out why this doesn't resolve
-    config.MapDefaultControllerRoute();
-});
 
 // #### end-custom wiring
 
