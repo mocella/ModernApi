@@ -1,6 +1,9 @@
 using Api.Core.Middleware;
 using FluentValidation;
+using HealthChecks.UI.Client;
 using MediatR;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Builder;
 using ModernApi.Services;
 using ModernApi.Validation;
 using Serilog;
@@ -73,10 +76,18 @@ app.UseAuthorization();
 app.MapControllers();
 
 // #### begin-custom wiring for the app pipeline:
-
+app.UseRouting();
 app.UseMiddleware<ExceptionHandlingMiddleware>();
-
-app.MapHealthChecks("/health");
+app.UseEndpoints(config =>
+{
+    config.MapHealthChecks("healthz", new HealthCheckOptions
+    {
+        Predicate = _ => true,
+        ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+    });
+    // config.MapHealthChecksUI(); // TODO: sort out why this doesn't resolve
+    config.MapDefaultControllerRoute();
+});
 
 // #### end-custom wiring
 
