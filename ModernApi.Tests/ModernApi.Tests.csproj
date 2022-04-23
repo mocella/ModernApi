@@ -22,6 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Api.Core\Api.Core.csproj" />
+    <ProjectReference Include="..\Mocella.DbUp\Mocella.DbUp.csproj" />
     <ProjectReference Include="..\ModernApi\ModernApi.csproj" />
   </ItemGroup>
 

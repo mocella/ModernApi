@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="appsettings.Development.json" />
+    <None Remove="appsettings.json" />
+    <None Remove="Scripts\BeforeMigration\0000_UseDb.sql" />
+    <None Remove="Scripts\FirstRun\0000_CreateDatabase.sql" />
+    <None Remove="Scripts\Test\0001_tSQLt.class.sql" />
+    <None Remove="Scripts\Test\0002_tSQLt.SetClrEnabled.sql" />
+    <None Remove="Scripts\Test\0003_testSchemas.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="appsettings.Development.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\BeforeMigration\0000_UseDb.sql" />
+    <EmbeddedResource Include="Scripts\FirstRun\0000_CreateDatabase.sql" />
+    <EmbeddedResource Include="Scripts\Test\0001_tSQLt.class.sql" />
+    <EmbeddedResource Include="Scripts\Test\0002_tSQLt.SetClrEnabled.sql" />
+    <EmbeddedResource Include="Scripts\Test\0003_testSchemas.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Mocella.DbUp\Mocella.DbUp.csproj" />
+  </ItemGroup>
+
+</Project>
