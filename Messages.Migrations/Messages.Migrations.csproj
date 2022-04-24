@@ -12,9 +12,6 @@
     <None Remove="appsettings.json" />
     <None Remove="Scripts\BeforeMigration\0000_UseDb.sql" />
     <None Remove="Scripts\FirstRun\0000_CreateDatabase.sql" />
-    <None Remove="Scripts\Test\0001_tSQLt.class.sql" />
-    <None Remove="Scripts\Test\0002_tSQLt.SetClrEnabled.sql" />
-    <None Remove="Scripts\Test\0003_testSchemas.sql" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,9 +30,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Scripts\BeforeMigration\0000_UseDb.sql" />
     <EmbeddedResource Include="Scripts\FirstRun\0000_CreateDatabase.sql" />
-    <EmbeddedResource Include="Scripts\Test\0001_tSQLt.class.sql" />
-    <EmbeddedResource Include="Scripts\Test\0002_tSQLt.SetClrEnabled.sql" />
-    <EmbeddedResource Include="Scripts\Test\0003_testSchemas.sql" />
   </ItemGroup>
 
   <ItemGroup>
