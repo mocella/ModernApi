@@ -1,3 +1,4 @@
+using Api.Core;
 using Api.Core.Middleware;
 using FluentValidation;
 using HealthChecks.UI.Client;
@@ -5,6 +6,7 @@ using MediatR;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using ModernApi.Services;
 using ModernApi.Validation;
+using Polly;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -36,7 +38,22 @@ builder.Services.AddMediatR(typeof(Program));
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
-builder.Services.AddHttpClient();
+builder.Services.AddScoped<IOperationScoped, OperationScoped>();
+builder.Services.AddTransient<OperationHandler>();
+
+builder.Services.AddHttpClient("PollyMultiple")
+    .AddTransientHttpErrorPolicy(policyBuilder =>
+        policyBuilder.WaitAndRetryAsync(3, retryNumber => TimeSpan.FromMilliseconds(150 * retryNumber)))
+    .AddTransientHttpErrorPolicy(policyBuilder =>
+        policyBuilder.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)))
+    .SetHandlerLifetime(TimeSpan.FromMinutes(5))
+    .ConfigurePrimaryHttpMessageHandler(() =>
+        new HttpClientHandler
+        {
+            AllowAutoRedirect = true,
+            UseDefaultCredentials = true
+        });
+
 // TODO: add custom client mapped for maybe GitHub?
 
 builder.Services
