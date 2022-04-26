@@ -12,6 +12,13 @@
     <None Remove="appsettings.json" />
     <None Remove="Scripts\BeforeMigration\0000_UseDb.sql" />
     <None Remove="Scripts\FirstRun\0000_CreateDatabase.sql" />
+    <None Remove="Scripts\Hash\2000_Tables\dbo.Identity.sql" />
+    <None Remove="Scripts\Hash\2000_Tables\dbo.Message.sql" />
+    <None Remove="Scripts\Hash\2000_Tables\dbo.Recipient.sql" />
+    <None Remove="Scripts\Hash\2000_Tables\dbo.RecipientType.sql" />
+    <None Remove="Scripts\Hash\4750_SeedData\dbo.RecipientType_Data.sql" />
+    <None Remove="Scripts\Hash\5000_Keys\dbo.Message.sql" />
+    <None Remove="Scripts\Hash\5000_Keys\dbo.Recipient.sql" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,6 +37,13 @@
   <ItemGroup>
     <EmbeddedResource Include="Scripts\BeforeMigration\0000_UseDb.sql" />
     <EmbeddedResource Include="Scripts\FirstRun\0000_CreateDatabase.sql" />
+    <EmbeddedResource Include="Scripts\Hash\2000_Tables\dbo.Recipient.sql" />
+    <EmbeddedResource Include="Scripts\Hash\2000_Tables\dbo.RecipientType.sql" />
+    <EmbeddedResource Include="Scripts\Hash\2000_Tables\dbo.Identity.sql" />
+    <EmbeddedResource Include="Scripts\Hash\2000_Tables\dbo.Message.sql" />
+    <EmbeddedResource Include="Scripts\Hash\4750_SeedData\dbo.RecipientType_Data.sql" />
+    <EmbeddedResource Include="Scripts\Hash\5000_Keys\dbo.Message.sql" />
+    <EmbeddedResource Include="Scripts\Hash\5000_Keys\dbo.Recipient.sql" />
   </ItemGroup>
 
   <ItemGroup>
