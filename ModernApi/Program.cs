@@ -4,6 +4,8 @@ using FluentValidation;
 using HealthChecks.UI.Client;
 using MediatR;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.EntityFrameworkCore;
+using ModernApi.Data;
 using ModernApi.Services;
 using ModernApi.Validation;
 using Polly;
@@ -41,6 +43,9 @@ builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBeh
 builder.Services.AddScoped<IOperationScoped, OperationScoped>();
 builder.Services.AddTransient<OperationHandler>();
 
+builder.Services.AddDbContext<MessageContext>(
+    options => options.UseSqlServer(builder.Configuration.GetConnectionString("MessageDatabase")));
+
 builder.Services.AddHttpClient("PollyMultiple")
     .AddTransientHttpErrorPolicy(policyBuilder =>
         policyBuilder.WaitAndRetryAsync(3, retryNumber => TimeSpan.FromMilliseconds(150 * retryNumber)))
@@ -64,8 +69,7 @@ builder.Services
     .AddCheck<ApiHealthCheck>("ModernApi")
     .AddSqlServer(
         builder.Configuration.GetConnectionString("MessageDatabase"))
-    // TODO: add EF Context health-check
-    //     .AddDbContextCheck<SampleDbContext>();
+    .AddDbContextCheck<MessageContext>()
     .Services
     .AddControllers();
 
