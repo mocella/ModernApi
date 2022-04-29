@@ -31,7 +31,7 @@ public class DbUpdater
         _env = env;
 
         ConnectionString = connectionString;
-        UseTransactions = true;
+        UseTransactions = false;
         DatabaseName = databaseName;
         FolderName = folderName;
         ScriptVariables = scriptVariables;
@@ -40,6 +40,8 @@ public class DbUpdater
     public string FolderName { get; }
     public string DatabaseName { get; }
     public string ConnectionString { get; }
+
+    // TODO: need to review how latest DbUp deals with transactions as setting UseTransactions causes an error of nested transactions
     public bool UseTransactions { get; set; }
     public IDictionary<string, string> ScriptVariables { get; }
 
