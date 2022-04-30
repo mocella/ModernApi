@@ -1,4 +1,4 @@
-﻿namespace ModernApi.Model;
+﻿namespace ModernApi.Api.MessageDetails;
 
 using MediatR;
 

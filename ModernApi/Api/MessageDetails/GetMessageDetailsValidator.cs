@@ -1,7 +1,6 @@
-﻿namespace ModernApi.Validation;
+﻿namespace ModernApi.Api.MessageDetails;
 
 using FluentValidation;
-using Model;
 
 public class GetMessageDetailsValidator : AbstractValidator<GetMessageDetails>
 {

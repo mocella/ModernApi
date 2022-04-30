@@ -1,8 +1,8 @@
 ﻿namespace ModernApi.Controllers;
 
+using Api.MessageDetails;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Model;
 
 [ApiController]
 [Route("[controller]")]

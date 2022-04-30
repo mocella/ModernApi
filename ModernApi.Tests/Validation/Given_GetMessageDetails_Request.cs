@@ -1,8 +1,7 @@
 ﻿namespace ModernApi.Tests.Validation;
 
 using System;
-using Model;
-using ModernApi.Validation;
+using Api.MessageDetails;
 using Xunit;
 
 [Trait(Constants.TestCategory, Constants.UnitTestCategory)]

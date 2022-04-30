@@ -5,9 +5,9 @@ using HealthChecks.UI.Client;
 using MediatR;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
+using ModernApi.Api.MessageDetails;
 using ModernApi.Data;
 using ModernApi.Services;
-using ModernApi.Validation;
 using Polly;
 using Serilog;
 

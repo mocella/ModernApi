@@ -1,7 +1,6 @@
-﻿namespace ModernApi.Handlers;
+﻿namespace ModernApi.Api.MessageDetails;
 
 using MediatR;
-using Model;
 
 public class GetMessageDetailHandler : IRequestHandler<GetMessageDetails, MessageDetailsResponse?>
 {
