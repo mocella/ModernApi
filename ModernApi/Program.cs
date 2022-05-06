@@ -45,9 +45,9 @@ builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBeh
 builder.Services.AddScoped<IOperationScoped, OperationScoped>();
 builder.Services.AddTransient<OperationHandler>();
 
-builder.Services.AddScoped<DateTimeProvider>();
-
 builder.Services.AddOptions();
+
+builder.Services.AddTransient<DateTimeProvider>();
 builder.Services.Configure<FileCleanupConfig>(configuration.GetSection("FileCleanup"));
 builder.Services.AddHostedService<FileCleanupJob>();
 
