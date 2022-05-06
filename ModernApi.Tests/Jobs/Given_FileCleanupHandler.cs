@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using global::Api.Core.Services;
 using ModernApi.Jobs.FileCleanup;
+using Moq;
 using Xunit;
 
 public class Given_FileCleanupHandler
@@ -28,8 +29,10 @@ public class Given_FileCleanupHandler
                 @"c:\temp\myFile.txt", new MockFileData("") { CreationTime = fileCreationTime }
             }
         });
+        var mockDateTimeProvider = new Mock<DateTimeProvider>();
+        mockDateTimeProvider.Setup(dtp => dtp.OffsetNow).Returns(DateTimeOffset.Parse(TestOffsetNowDate));
 
-        var handler = new FileCleanupHandler(fileSystem, new DateTimeProvider());
+        var handler = new FileCleanupHandler(fileSystem, mockDateTimeProvider.Object);
         var request = new FileCleanup
         {
             Config = new FileCleanupConfig

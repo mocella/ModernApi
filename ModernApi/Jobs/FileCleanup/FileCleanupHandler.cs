@@ -24,7 +24,7 @@ public class FileCleanupHandler : IRequestHandler<FileCleanup>
     {
         _fileSystem.Directory.GetFiles(request.Config.RootPath)
             .Select(f => _fileSystem.FileInfo.FromFileName(f))
-            .Where(f => f.CreationTime < _dateTimeProvider.OffsetNow.AddDays(-1 * request.Config.RetentionDays))
+            .Where(f => f.CreationTime <= _dateTimeProvider.OffsetNow.AddDays(-1 * request.Config.RetentionDays))
             .ToList()
             .ForEach(f => f.Delete());
 
