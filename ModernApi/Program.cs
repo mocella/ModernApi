@@ -1,5 +1,6 @@
 using Api.Core;
 using Api.Core.Middleware;
+using Api.Core.Services;
 using FluentValidation;
 using HealthChecks.UI.Client;
 using MediatR;
@@ -43,6 +44,8 @@ builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBeh
 
 builder.Services.AddScoped<IOperationScoped, OperationScoped>();
 builder.Services.AddTransient<OperationHandler>();
+
+builder.Services.AddScoped<DateTimeProvider>();
 
 builder.Services.AddOptions();
 builder.Services.Configure<FileCleanupConfig>(configuration.GetSection("FileCleanup"));

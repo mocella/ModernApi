@@ -1,9 +1,8 @@
-﻿namespace ModernApi.Jobs.FileCleanup
-{
-    using MediatR;
+﻿namespace ModernApi.Jobs.FileCleanup;
 
-    public class FileCleanup : IRequest
-    {
-        public FileCleanupConfig Config { get; set; }
-    }
+using MediatR;
+
+public class FileCleanup : IRequest
+{
+    public FileCleanupConfig Config { get; set; }
 }

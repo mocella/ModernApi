@@ -1,8 +1,7 @@
-﻿namespace ModernApi.Data
+﻿namespace ModernApi.Data;
+
+public class Entity
 {
-    public class Entity
-    {
-        public DateTimeOffset Created  { get; set; }
-        public DateTimeOffset Modified { get; set; }
-    }
+    public DateTimeOffset Created { get; set; }
+    public DateTimeOffset Modified { get; set; }
 }

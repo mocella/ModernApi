@@ -1,31 +1,33 @@
-﻿namespace ModernApi.Jobs.FileCleanup
+﻿namespace ModernApi.Jobs.FileCleanup;
+
+using System.IO.Abstractions;
+using global::Api.Core.Services;
+using MediatR;
+
+public class FileCleanupHandler : IRequestHandler<FileCleanup>
 {
-    using System.IO.Abstractions;
-    using MediatR;
+    private readonly IFileSystem _fileSystem;
+    private readonly DateTimeProvider _dateTimeProvider;
 
-    public class FileCleanupHandler : IRequestHandler<FileCleanup>
+    public FileCleanupHandler(DateTimeProvider dateTimeProvider)
+        : this(new FileSystem(), dateTimeProvider)
     {
-        private readonly IFileSystem _fileSystem;
+    }
 
-        public FileCleanupHandler() 
-            : this(new FileSystem())
-        {
-        }
+    public FileCleanupHandler(IFileSystem fileSystem, DateTimeProvider dateTimeProvider)
+    {
+        _fileSystem = fileSystem;
+        _dateTimeProvider = dateTimeProvider;
+    }
 
-        public FileCleanupHandler(IFileSystem fileSystem)
-        {
-            _fileSystem = fileSystem;
-        }
+    public Task<Unit> Handle(FileCleanup request, CancellationToken cancellationToken)
+    {
+        _fileSystem.Directory.GetFiles(request.Config.RootPath)
+            .Select(f => _fileSystem.FileInfo.FromFileName(f))
+            .Where(f => f.CreationTime < _dateTimeProvider.OffsetNow.AddDays(-1 * request.Config.RetentionDays))
+            .ToList()
+            .ForEach(f => f.Delete());
 
-        public Task<Unit> Handle(FileCleanup request, CancellationToken cancellationToken)
-        {
-            _fileSystem.Directory.GetFiles(request.Config.RootPath)
-                .Select(f => new FileInfo(f))
-                .Where(f => f.LastWriteTime < DateTime.Now.AddDays(-1 * request.Config.RetentionDays))
-                .ToList()
-                .ForEach(f => f.Delete());
-            
-            return (Task<Unit>)Task.CompletedTask;
-        }
+        return Task.FromResult(Unit.Value);
     }
 }

@@ -22,7 +22,8 @@ public static class HashedSqlServerExtensions
         builder.Configure(c => c.ScriptExecutor = new SqlScriptExecutor(() => c.ConnectionManager, () => c.Log, schema,
             () => c.VariablesEnabled, c.ScriptPreprocessors, () => c.Journal));
         builder.Configure(c =>
-            c.Journal = new HashedSqlTableJournal(() => c.ConnectionManager, () => c.Log, new SqlServerObjectParser(), schema, migrationTableName));
+            c.Journal = new HashedSqlTableJournal(() => c.ConnectionManager, () => c.Log, new SqlServerObjectParser(),
+                schema, migrationTableName));
         return builder;
     }
 
