@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
 using ModernApi.Api.MessageDetails;
 using ModernApi.Data;
+using ModernApi.Jobs.FileCleanup;
 using ModernApi.Services;
 using Polly;
 using Serilog;
@@ -42,6 +43,10 @@ builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBeh
 
 builder.Services.AddScoped<IOperationScoped, OperationScoped>();
 builder.Services.AddTransient<OperationHandler>();
+
+builder.Services.AddOptions();
+builder.Services.Configure<FileCleanupConfig>(configuration.GetSection("FileCleanup"));
+builder.Services.AddHostedService<FileCleanupJob>();
 
 builder.Services.AddDbContext<MessageContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("MessageDatabase")));
