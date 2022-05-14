@@ -7,6 +7,6 @@ public class Recipient : Entity
     public long IdentityId { get; set; }
     public RecipientType RecipientTypeId { get; set; }
 
-    public Message Message { get; set; }
-    public Identity Identity { get; set; }
+    public Message? Message { get; set; }
+    public Identity? Identity { get; set; }
 }
