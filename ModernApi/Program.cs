@@ -1,3 +1,5 @@
+using System.Diagnostics.Metrics;
+using System.Reflection;
 using Api.Core;
 using Api.Core.Middleware;
 using Api.Core.Services;
@@ -10,8 +12,17 @@ using ModernApi.Api.MessageDetails;
 using ModernApi.Data;
 using ModernApi.Jobs.FileCleanup;
 using ModernApi.Services;
+using OpenTelemetry;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using Polly;
 using Serilog;
+
+
+var assemblyName = Assembly.GetEntryAssembly()!.GetName();
+var appName = assemblyName.Name!;
+var appVersion = assemblyName.Version!.ToString();
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +45,55 @@ var logger = new LoggerConfiguration()
 
 // builder.Logging.ClearProviders();
 builder.Logging.AddSerilog(logger);
+
+var appResourceBuilder = ResourceBuilder.CreateDefault()
+    .AddService(serviceName: appName, serviceVersion: appVersion);
+
+builder.Services.AddOpenTelemetry()
+    .WithTracing(tracerProviderBuilder =>
+    {
+        tracerProviderBuilder
+#if DEBUG
+            .AddConsoleExporter()
+#endif
+            .AddSource(assemblyName.Name)
+            .SetResourceBuilder(appResourceBuilder)
+            .AddHttpClientInstrumentation()
+            .AddAspNetCoreInstrumentation()
+            .AddSqlClientInstrumentation();
+        // would probably want something like the following to actually send telemetry somewhere: 
+        /*
+         .AddOtlpExporter(o =>
+            {
+                o.Endpoint = new Uri("http://otel-collector:4317");
+            }))
+         */
+    })
+    .StartWithHost();
+
+var meter = new Meter(appName);
+builder.Services.AddSingleton(meter);
+
+builder.Services.AddOpenTelemetry()
+    .WithMetrics(metricProviderBuilder =>
+    {
+        metricProviderBuilder
+#if DEBUG
+            .AddConsoleExporter()
+#endif
+            .AddMeter(meter.Name)
+            .SetResourceBuilder(appResourceBuilder)
+            .AddAspNetCoreInstrumentation()
+            .AddHttpClientInstrumentation();
+        // would probably want something like the following to actually send telemetry somewhere: 
+        /*
+         .AddOtlpExporter(o =>
+            {
+                o.Endpoint = new Uri("http://otel-collector:4317");
+            }))
+         */
+    })
+    .StartWithHost();
 
 builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 builder.Services.AddValidatorsFromAssemblyContaining(typeof(GetMessageDetailsValidator));
