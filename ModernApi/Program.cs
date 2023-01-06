@@ -32,7 +32,7 @@ var logger = new LoggerConfiguration()
     .Enrich.FromLogContext()
     .CreateLogger();
 
-builder.Logging.ClearProviders();
+// builder.Logging.ClearProviders();
 builder.Logging.AddSerilog(logger);
 
 builder.Services.AddTransient<ExceptionHandlingMiddleware>();
@@ -76,7 +76,8 @@ builder.Services
     .AddHealthChecks()
     .AddCheck<ApiHealthCheck>("ModernApi")
     .AddSqlServer(
-        builder.Configuration.GetConnectionString("MessageDatabase"))
+        builder.Configuration.GetConnectionString("MessageDatabase"),
+        timeout: TimeSpan.FromSeconds(5))
     .AddDbContextCheck<MessageContext>()
     .Services
     .AddControllers();
