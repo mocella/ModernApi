@@ -13,8 +13,7 @@ using Xunit;
 
 public class Given_FileCleanupHandler
 {
-    public const string TestOffsetNowDate = "5/6/2022 12:00:00 PM -05:00";
-
+    private const string TestOffsetNowDate = "5/6/2022 12:00:00 PM -05:00";
 
     [Theory]
     [InlineData("3/27/2022 12:00:00 PM -05:00", true)]

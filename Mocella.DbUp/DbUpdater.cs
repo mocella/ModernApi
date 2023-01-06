@@ -1,4 +1,7 @@
-﻿namespace Mocella.DbUp;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Mocella.DbUp;
 
 using System.Data;
 using System.Data.SqlClient;

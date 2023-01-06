@@ -13,7 +13,7 @@ public abstract class CronJobService : IHostedService, IDisposable
     private readonly bool _instantRun;
     private Timer? _timer;
 
-    protected CronJobService(string cronExpression, bool instantRun)
+    protected CronJobService(string? cronExpression, bool instantRun)
     {
         _expression = CronExpression.Parse(cronExpression);
         _instantRun = instantRun;

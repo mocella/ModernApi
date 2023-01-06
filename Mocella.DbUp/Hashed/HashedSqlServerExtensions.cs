@@ -1,4 +1,6 @@
-﻿namespace Mocella.DbUp.Hashed;
+﻿using System;
+
+namespace Mocella.DbUp.Hashed;
 
 using System.Reflection;
 using System.Text;

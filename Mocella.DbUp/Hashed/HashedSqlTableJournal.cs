@@ -1,4 +1,7 @@
-﻿namespace Mocella.DbUp.Hashed;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Mocella.DbUp.Hashed;
 
 using System.Data;
 using global::DbUp.Engine;

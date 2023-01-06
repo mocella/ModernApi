@@ -4,5 +4,5 @@ using MediatR;
 
 public class FileCleanup : IRequest
 {
-    public FileCleanupConfig Config { get; set; }
+    public FileCleanupConfig? Config { get; set; }
 }

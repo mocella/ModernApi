@@ -1,4 +1,6 @@
-﻿namespace Mocella.DbUp;
+﻿using System;
+
+namespace Mocella.DbUp;
 
 public enum Env
 {

@@ -35,7 +35,7 @@ public class Given_EnvParser
         AssertStringParsesAsExpected("dev", Env.DEV);
     }
 
-    private void AssertStringParsesAsExpected(string value, Env expected)
+    private void AssertStringParsesAsExpected(string? value, Env expected)
     {
         var actual = EnvParser.Parse(value);
         Assert.Equal(expected, actual);
