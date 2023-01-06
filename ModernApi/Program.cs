@@ -103,6 +103,7 @@ builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavi
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
 builder.Services.AddScoped<IOperationScoped, OperationScoped>();
+builder.Services.AddScoped<IMessageRepository, MessageRepository>();
 builder.Services.AddTransient<OperationHandler>();
 
 builder.Services.AddOptions();

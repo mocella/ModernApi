@@ -20,7 +20,7 @@ public class MessagesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> Get(Guid messageGuid)
     {
-        var details = await _mediator.Send(new GetMessageDetails(messageGuid));
+        var details = await _mediator.Send(new GetMessageDetail(messageGuid));
 
         return details == null ? NotFound() : Ok(details);
     }

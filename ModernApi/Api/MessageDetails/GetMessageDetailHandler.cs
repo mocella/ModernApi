@@ -1,19 +1,29 @@
-﻿namespace ModernApi.Api.MessageDetails;
+﻿using ModernApi.Data;
+
+namespace ModernApi.Api.MessageDetails;
 
 using MediatR;
 
-public class GetMessageDetailHandler : IRequestHandler<GetMessageDetails, MessageDetailsResponse?>
+public class GetMessageDetailHandler : IRequestHandler<GetMessageDetail, MessageDetailResponse?>
 {
-    private readonly IMediator _mediator;
+    private readonly IMessageRepository _messageRepository;
 
-    public GetMessageDetailHandler(IMediator mediator)
+    public GetMessageDetailHandler(IMessageRepository messageRepository)
     {
-        _mediator = mediator;
+        _messageRepository = messageRepository;
     }
 
-    public async Task<MessageDetailsResponse?> Handle(GetMessageDetails request, CancellationToken cancellationToken)
+    public async Task<MessageDetailResponse?> Handle(GetMessageDetail request, CancellationToken cancellationToken)
     {
-        // TODO: setup an EF Query, then map to DTOs as the response
-        return new MessageDetailsResponse(request.MessageGuid);
+        var messageDetail = await _messageRepository.GetMessageDetail(request.MessageGuid);
+        if(messageDetail != null)
+        {
+            return new MessageDetailResponse{
+                MessageGuid = messageDetail.MessageGuid,
+                Body = messageDetail.Body,
+                Subject = messageDetail.Subject
+            };
+        }
+        return null;
     }
 }

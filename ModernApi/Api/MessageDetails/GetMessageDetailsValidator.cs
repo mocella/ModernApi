@@ -2,7 +2,7 @@
 
 using FluentValidation;
 
-public class GetMessageDetailsValidator : AbstractValidator<GetMessageDetails>
+public class GetMessageDetailsValidator : AbstractValidator<GetMessageDetail>
 {
     public GetMessageDetailsValidator()
     {

@@ -1,8 +1,8 @@
 ﻿namespace ModernApi.Tests.Validation;
 
 using System;
-using Api.MessageDetails;
 using Xunit;
+using ModernApi.Api.MessageDetails;
 
 [Trait(Constants.TestCategory, Constants.UnitTestCategory)]
 public class Given_GetMessageDetails_Request
@@ -20,7 +20,7 @@ public class Given_GetMessageDetails_Request
     public void Should_Require_ValidGuid(Guid messageGuid, bool expectedResult)
     {
         // arrange
-        var request = new GetMessageDetails(messageGuid);
+        var request = new GetMessageDetail(messageGuid);
 
         // act 
         var result = _validator.Validate(request);
