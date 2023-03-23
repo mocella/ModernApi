@@ -4,23 +4,11 @@ using System;
 
 public class DateTimeProvider
 {
-    public virtual DateTime Now
-    {
-        get { return DateTime.Now; }
-    }
+    public virtual DateTime Now => DateTime.Now;
 
-    public virtual DateTime UtcNow
-    {
-        get { return DateTime.UtcNow; }
-    }
+    public virtual DateTime UtcNow => DateTime.UtcNow;
 
-    public virtual DateTimeOffset OffsetNow
-    {
-        get { return DateTimeOffset.Now; }
-    }
+    public virtual DateTimeOffset OffsetNow => DateTimeOffset.Now;
 
-    public virtual DateTimeOffset OffsetUtcNow
-    {
-        get { return DateTimeOffset.UtcNow; }
-    }
+    public virtual DateTimeOffset OffsetUtcNow => DateTimeOffset.UtcNow;
 }
