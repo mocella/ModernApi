@@ -116,6 +116,7 @@ builder.Services.AddDbContext<MessageContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("MessageDatabase")));
 
 builder.Services.AddHttpClient("PollyMultiple")
+    .AddHttpMessageHandler<HttpClientLoggingHandler>()
     .AddTransientHttpErrorPolicy(policyBuilder =>
         policyBuilder.WaitAndRetryAsync(3, retryNumber => TimeSpan.FromMilliseconds(150 * retryNumber)))
     .AddTransientHttpErrorPolicy(policyBuilder =>
